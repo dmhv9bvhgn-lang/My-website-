@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nouran’s Safe Place 🤍</title>
+<meta name="theme-color" content="#f7efe8">
+<style>
+500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+:root{
+  --bg:#f8f1eb; --card:rgba(255,255,255,.72); --ink:#493d3a; --muted:#8d7b75;
+  --accent:#a97b70; --accent2:#d8b5a9; --line:#eadbd3; --shadow:0 20px 60px rgba(94,65,54,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink); background:
+  radial-gradient(circle at 15% 10%, #fff8f3 0 18%, transparent 40%),
+  radial-gradient(circle at 85% 20%, #f1e3dc 0 12%, transparent 35%),
+  var(--bg);
+  font-family:Cairo,system-ui,sans-serif;
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:radial-gradient(#9e8074 0.55px,transparent .55px);background-size:18px 18px}
+button{font:inherit}
+.app{min-height:100vh}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px 18px;position:relative}
+.hero-inner{text-align:center;max-width:760px}
+.heart{font-size:34px;animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-7px)}}
+.hero h1{font-family:"Playfair Display",serif;font-size:clamp(42px,8vw,78px);font-weight:600;margin:10px 0 8px;direction:ltr}
+.hero p{font-size:18px;color:var(--muted);margin:0 0 28px;direction:ltr}
+.enter{border:1px solid var(--line);background:#fffaf7;color:var(--ink);padding:13px 24px;border-radius:999px;cursor:pointer;box-shadow:0 10px 30px rgba(80,50,40,.08);transition:.25s}
+.enter:hover{transform:translateY(-2px);box-shadow:0 15px 35px rgba(80,50,40,.13)}
+.layout{display:none;max-width:1120px;margin:auto;padding:28px 18px 70px}
+.layout.show{display:block}
+.topbar{position:sticky;top:10px;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;margin-bottom:20px;border:1px solid var(--line);background:rgba(255,250,247,.82);backdrop-filter:blur(14px);border-radius:18px;box-shadow:0 10px 35px rgba(70,45,35,.07)}
+.brand{font-family:"Playfair Display",serif;font-size:18px;direction:ltr}
+.homebtn{border:0;background:transparent;color:var(--muted);cursor:pointer}
+.menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:24px}
+@media(min-width:760px){.menu{grid-template-columns:repeat(3,1fr)}}
+.menu button{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:16px 14px;border-radius:20px;text-align:right;cursor:pointer;transition:.25s;box-shadow:var(--shadow)}
+.menu button:hover,.menu button.active{transform:translateY(-2px);border-color:#d6b8ae;background:#fffaf7}
+.menu .en{display:block;direction:ltr;text-align:left;font-size:12px;color:var(--muted);margin-top:4px}
+.section{display:none;background:var(--card);border:1px solid var(--line);border-radius:28px;padding:clamp(22px,4vw,44px);box-shadow:var(--shadow);animation:fade .4s ease}
+.section.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.section h2{font-family:"Playfair Display",serif;font-size:clamp(27px,5vw,42px);direction:ltr;text-align:left;margin:0 0 24px}
+.text{white-space:pre-line;line-height:2.05;font-size:16px}
+.text strong{font-weight:700}
+.soft{color:var(--muted)}
+.photo-story{display:grid;gap:24px;margin-top:28px}
+.photo-card{overflow:hidden;border-radius:24px;background:#fffaf7;border:1px solid var(--line)}
+.photo-card img{width:100%;display:block;max-height:720px;object-fit:cover}
+.photo-caption{padding:18px 20px;font-size:17px;line-height:1.9;text-align:center}
+.quote{font-family:"Playfair Display",serif;direction:ltr;text-align:center;font-size:clamp(25px,5vw,42px);padding:35px 10px 5px}
+.egg{margin-top:30px;padding:22px;border-radius:22px;background:#f4e7e0;text-align:center}
+.egg button,.peace-btn,.choice{border:1px solid #dfc8be;background:#fffaf7;color:var(--ink);border-radius:999px;padding:11px 18px;cursor:pointer;margin:6px;transition:.2s}
+.egg button:hover,.peace-btn:hover,.choice:hover{transform:scale(1.02)}
+.egg-msg{min-height:28px;margin-top:12px;font-weight:600}
+.choices{text-align:center;margin-top:28px}
+.choices h3{font-family:"Playfair Display",serif;direction:ltr}
+#peaceOverlay{display:none;position:fixed;inset:0;background:rgba(35,28,25,.88);z-index:100;color:#fff;align-items:center;justify-content:center;text-align:center;padding:24px}
+#peaceOverlay.show{display:flex}
+.peace-inner{max-width:700px}
+.peace-line{opacity:0;transform:translateY(10px);font-size:clamp(22px,5vw,36px);line-height:1.8;margin:8px 0}
+.peace-line.show{animation:lineIn .9s forwards}
+@keyframes lineIn{to{opacity:1;transform:none}}
+.close{position:fixed;top:18px;left:18px;border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:50%;width:42px;height:42px;cursor:pointer;font-size:22px}
+.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;direction:ltr}
+body{overflow-x:hidden;} img{max-width:100%;height:auto;}\n</style>
+</head>
+<body><div id="loadCheck" style="position:fixed;right:10px;bottom:10px;z-index:9999;font-size:11px;opacity:.45;direction:ltr">Nouran’s Safe Place 🤍</div>
+<div class="app">
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="heart">🤍</div>
+    <h1>Nouran’s Safe Place</h1>
+    <p>Welcome to your safe place i made for you</p>
+    <button class="enter" id="enterButton" type="button">Come in 🤍</button>
+  </div>
+</section>
+
+<main class="layout" id="site">
+  <div class="topbar">
+    <div class="brand">Nouran’s Safe Place 🤍</div>
+    <button class="homebtn" onclick="showSection('overwhelmed')">↩ Start</button>
+  </div>
+
+  <nav class="menu">
+    <button data-id="overwhelmed" onclick="showSection('overwhelmed')">😔 I’m overwhelmed<span class="en">you don't have to carry it alone</span></button>
+    <button data-id="mind" onclick="showSection('mind')">🧠 My mind won’t stop<span class="en">let's quiet it for a minute</span></button>
+    <button data-id="home" onclick="showSection('home')">🏠 Take me home<span class="en">home is wherever you are</span></button>
+    <button data-id="loved" onclick="showSection('loved')">❤️ Remind me that I’m loved<span class="en">just in case you forgot</span></button>
+    <button data-id="peace" onclick="showSection('peace')">🥺 I just need some peace<span class="en">you can rest here</span></button>
+  </nav>
+
+  <section class="section active" id="overwhelmed">
+    <h2>😔 I’m overwhelmed</h2>
+    <div class="text">أنا عارفة إن اليومين دول مش أسهل حاجة عليك، وإن ممكن يكون في حاجات كتير جوا دماغك في نفس الوقت
+حاجات محتاجة تتحل, 
+حاجات محتاجة تفكير,
+وحاجات يمكن حتى مش عارف تتكلم عنها.
+
+أنا عارفة إني مش هقدر أخلي كل حاجة بتضايقك تختفي،
+بس أقدر أفكرك بحاجة مهمة: أنا موجودة دايما دايما 
+لو عايز تتكلم انا هسمعك وهحب اسمعك دايما
+لو عايز نسكت انا بردو هحب اكون معاك
+والاهم دلوقتي كل ده معمول علشان حبيبي ف سيب الدنيا بره شوية وخليك هنا معايا(كان نفسي اكون جنبك في الحقيقة) .</div>
+    <div class="text" style="margin-top:28px"><b>🤍 I need to hear something else</b>
+
+عارف انا فخورة بيك ليه؟
+انت برغم كل حاجة متعبة انت لسه بتحاول بس بردو نفسي تخف على نفسك شوية علشان حتى انا مش معاك دلوقتي علشان اعرف اتشقلب كده بس اشوفك كويس ومبسوط لما نتجوز إن شاء الله هبقى مطمنة اكتر وانت بتتعب في الشغل علشان اوعدك ان هبقى دايما بيت ليك هادي وهنخلي بيتنا كله حب ودفى هخلي بالي منك واشيلك في عيوني هعملك كل الاكل اللي بتحبه وهطمن انك تاكل كويس من ايدي وهعمل كل حاجة تبسطك ووقت ما تزعل او تتعب هطبطب عليك وحضني هيبقى موجود ليك انت بس دايما مش هخليك تحس انك لوحدك ابدا وساعتها بالعافية هخليك تتكلم معايا وتطلع كل اللي جواك وانا اقعد اقولك انك اجمل راجل شافته عيني وان انا بحبك اوي ومستعدة اعمل اي حاجة في الدنيا علشان اشوفك مرتاح ومبسوط زي ما انت مخليني مرتاحة ومبسوطة ومطمنة.</div>
+  </section>
+
+  <section class="section" id="mind">
+    <h2>🧠 My mind won’t stop</h2>
+    <div class="text">عارفة إن دماغك ممكن تكون مليانة حاجات، وكل ما تحاول توقف تفكير تلاقي نفسك بتفكر أكتر.
+
+في حاجات حصلت وبتفكر فيها،
+وحاجات لسه هتحصل وبتقلق منها،
+وحاجات بتسأل نفسك كان المفروض تعمل فيها إيه ايا كان الاسئلة او اللغبطة اللي جواك عايزاك تسيبها على جنب وتفكر دلوقتي ان انا معاك وبحبك وكل حاجة هتتظبط وان فيه بنوتة بتموت فيك والله ومهما يحصل كده كده هي مش هتستغنى عنك ابدا وهتفضل في ضهرك لحد ما كل ده يعدي ونفتكره واحنا سوا</div>
+    <div class="choices">
+      <h3>💆🏻 “Okay, let’s quiet your mind.”</h3>
+      <button class="peace-btn" onclick="quietMind()">غمض عينيك وخد نفس كده وبعدين فتح</button>
+      <div id="mindMsg" class="text" style="display:none;margin-top:24px">بخ.. لا ده عبط عادي عشان ماتزهقش بس.. اصل يعني حد يقولي لما الولد اللي مفيش زيه في الدنيا ده ولا فيه حد احلى منه ولا فيه حد في طيبته ورجولته وحنيته وعنده عضلات كده(بتاعتي انا بس) المهم لما يبقى فيه كل حاجة حلوة في الدنيا كده والله وولا غلطة وحظه كمان معاه انا يعني هيعوز ايه تاني من الدنيا وليه ممكن اقدر اسيبه زعلان كده؟؟ انا بحبك اوي ياكريم ونفسي اسهل عليك الدنيا زي ما انت مسهلها عليا والله ياحبيبي.</div>
+    </div>
+    <div class="egg">
+      <button onclick="eggMind()">🌙 keep going</button>
+      <div class="egg-msg" id="eggMindMsg"></div>
+    </div>
+  </section>
+
+  <section class="section" id="home">
+    <h2>🏠 Take me home</h2>
+    <div class="text">هنا مفيش ضغط،
+مفيش حاجة محتاجة تتحل،
+ومفيش أي حاجة مطلوب منك تعملها.
+
+هنا بس إنت وأنا. 🤍
+
+عارف يعني إيه home بالنسبالي؟
+
+مش مكان.
+
+مش بيت.
+
+ومش أربع حيطان.
+
+الـhome بالنسبالي هو الشخص اللي أقدر أكون معاه على طبيعتي.
+
+انت بقيت بالنسبالي الشخص ده.
+
+الشخص اللي بحب أحكيله،
+وأضحك معاه،
+وأرخم عليه،
+وأختلف معاه،
+ونشد في شعر بعض, 
+وأرجعله في الآخر بردو. 😂🤍
+واتكلم معاه من غير تفكير حتى لو اللي بقوله مش المفروض يتقال مش بخاف احكيلك اي حاجة ومش بخاف تفهمني غلط بعرف ابقى معاك انا وبتعرف تخليني اقولك كل اللي جوايا كأني قدام نفسي
+
+فلو الدنيا بره بقت كتير…
+
+تعالى هنا.
+
+اعتبر إنك رجعت البيت.
+
+ارمي كل حاجة وراك،
+وخليك معايا شوية.
+
+🏡 And one day…
+
+إن شاء الله مش هتبقى محتاج تفتح chat او website عشان “ترجع البيت”.
+
+هتبقى داخل من باب بيتنا،
+وأنا مستنياك.
+
+هتكون تعبان من الشغل،
+وانا هستقبلك كأني بنتك الصغنونة وفي نفس الوقت مراتك إن شاء الله وهفضل بقى لازقة فيك كده لحد ما نصحى نروح الشغل تاني يوم 
+
+وهفضل أسمعك تحكي عن يومك، حتى لو نص الحكاية مش فاهمة منه حاجة 😂
+
+وهعملك الأكل اللي بتحبه،
+ونقعد سوا،
+ونضحك على حاجات ملهاش لازمة،
+ونفتكر كل الاوقات اللي عدينا بيها,
+ونتكلم في كل حاجة.
+
+ولما اليوم يبقى وحش…
+
+هنخليه يعدي سوا.
+
+أنا مش بوعدك إن حياتنا هتبقى من غير أيام صعبة.
+
+بس بوعدك..
+
+مش هتكون لوحدك فيها ابدا حتى لو انت مزعلني او انا مزعلاك. 🤍
+
+
+لو حسيت في أي وقت إن الدنيا بقت تقيلة…
+
+تعالى هنا.
+
+لأن عندك مكان ترجعله.
+
+عندك انا دايما ولاخر العمر.</div>
+
+    <div class="photo-story">
+      <div class="photo-card">
+        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="memory">
+        <div class="photo-caption">سندت دماغي على كتفك ديه فيها امان وحنية الدنيا كلها هعوز ايه من الدنيا غيرك؟ 🤍</div>
+      </div>
+      <div class="photo-card">
+        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="memory">
+        <div class="photo-caption">Somehow, being this close to you feels like home. 🤍</div>
+      </div>
+      <div class="photo-card">
+        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="memory">
+        <div class="photo-caption">Okay… maybe we’ve always been a little too comfortable around each other. 😂🤍</div>
+      </div>
+      <div class="photo-card">
+        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="our “childhood”">
+        <div class="photo-caption">See? We’ve been in love since we were kids. 😂🤍</div>
+      </div>
+      <div class="photo-card">
+        <img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="memory">
+        <div class="photo-caption">One day, I hope these little moments become our ordinary life. 🤍</div>
+      </div>
+    </div>
+    <div class="quote">Home is wherever you are. 🏠🤍</div>
+  </section>
+
+  <section class="section" id="loved">
+    <h2>❤️ Remind me that I’m loved</h2>
+    <div class="text">انا بحبك ..اوي كمان.
+اعتقد اني حبيتك بكل الطرق وفي كل الاوقات وبكل المشاعر .. حبيتك من اول ما لقيت نفسي بتسحل معاك في الكلام ومش عايزه الكلام يخلص بيننا ومن اول ما كنت بتبسط لما نتكلم واستنى ها هنتكلم تاني امتى 
+حبيتك كأنك بابا وفي نفس الوقت كأنك ابني ببقى عايزه اجي استخبى من الدنيا كلها في حضنك ومجرد ما بسند على كتفك بطمن وبحس ان مش حاسة غير اني مبسوطة اوي ومطمنة اوي وعايزه افضل كده العمر كله وحبيتك كأنك ابني وفي اي وقت حسيتك زعلان او مبسوط او تعبان كنت بشوفك بشكل غريب محسيتهوش قبل كده احيانا بحس اني عايزه اخدك من تعبك وضغطك ده واخلي بالي منك واهتم بيك واعملك كل حاجة من قبل ما تطلب حتى
+وحبيتك كأنك اخويا اللي ماحدش يقدر يقربلي طول ما هو موجود 
+حبيتك وانت حبيبي وروحي وقلبي وكل حياتي اغلى حاجة في الدنيا والحاجة اللي عايزه احافظ عليها ومخسرهاش ابدا
+وحبيتك كأنك جوزي شاركتك كل حاجة وكنت عايزه ابقى جنبك في كل حاجة وعايزه ابقى ليك كل حاجة وشايفاك ليا كل حاجة انت كنت اب وابن واخ وصاحب وهتبقى زوج إن شاء الله قادر تبقى كل ده بشكل مش طبيعي يخليني كل ما ابصلك او افكر فيك اقول ازاي عرفت تخليني مليانة بمشاعر ماتتوصفش ولا تتعوض خليتني عايزه ابقى احسن واحسن علشانك وخليتني اطلع كل الحلو اللي جوايا من غير ما اخاف 
+
+بحب كل تفاصيلك
+شعرك وعيونك وضحتك وعضلاتك وايديك وكتفك اللي مستحملني دايما
+بحب صوتك ورجولتك وحنيتك عليا واسلوبك وانت بتتكلم ووانت مبسوط وبتحكي وحتى لما بتطلع عيني بحب ده
+بحب انت بكل حاجة فيك.</div>
+
+    <div class="egg">
+      <h3>How many times do you need to hear it? ❤️</h3>
+      <button onclick="loveAgain()">Once</button>
+      <button onclick="loveAgain()">Again</button>
+      <button onclick="loveAgain()">Again.</button>
+      <div class="egg-msg" id="loveMsg"></div>
+    </div>
+  </section>
+
+  <section class="section" id="peace">
+    <h2>🥺 I just need some peace</h2>
+    <div class="text">انت عملت كل حاجة بشكل يخليك ماتحسش للحظة انك قصرت او ان المشكلة من عندك وانا هفضل بفكرك دايما ان اه احنا لسه متخطبناش بس انت كنت قد وعودك ليا دايما وكنت دايما بتعرف تصبرني وتطمني ان الخطوة ديه هانت وانا واثقة في ربنا ثم فيك ان اللي جاي كله هيبقى خير إن شاء الله وهيبقى احسن واكتر من اللي نفسنا فيه
+
+اطمن ياحبيبي انا هفضل هنا وانت هتفضل سبب فرحتي وهفضل واثقة فيك وربنا يقدرني واقد اعوضك عن كل تعبك وضغطك وإن شاء الله مبقاش ابدا سبب في زعلك 
+
+شكرا اوي ياحبيبي على كل حاجة عملتها وعلى كل اللي بتعمله او اللي هتعمله شكرا انك خليت جوايا حاجات كتير حلوة اوي وخليتني اكتشف في نفسي انا ممكن احب لدرجة ايه وممكن اعمل ايه عشان حبيت او حبيتك انت تحديدا.</div>
+
+    <div class="choices">
+      <button class="peace-btn" onclick="openPeace()">🌙 Stay here for a little while</button>
+    </div>
+  </section>
+
+  <div class="footer">Made with love, from Nouran 🤍</div>
+</main>
+
+<div id="peaceOverlay">
+  <button class="close" onclick="closePeace()">×</button>
+  <div class="peace-inner">
+    <div class="peace-line" id="p1">مفيش حاجة تانية.</div>
+    <div class="peace-line" id="p2">خليك معايا .. انا بحبك</div>
+    <div class="peace-line" id="p3">واطمن انا معاك وعايزه اكون معاك دايما.</div>
+    <div class="peace-line" id="p4">I love you 🤍</div>
+  </div>
+</div>
+
+<script>
+function enterSite(){
+  const hero = document.getElementById('hero');
+  const site = document.getElementById('site');
+  if (!hero || !site) return;
+  hero.style.display = 'none';
+  site.classList.add('show');
+  window.scrollTo(0, 0);
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  const btn = document.getElementById('enterButton');
+  if (btn) {
+    btn.addEventListener('click', enterSite);
+    btn.addEventListener('touchend', function(e){
+      e.preventDefault();
+      enterSite();
+    }, {passive:false});
+  }
+});
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const btn=document.querySelector(`.menu button[data-id="${id}"]`);
+  if(btn) btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function quietMind(){
+  const m=document.getElementById('mindMsg');
+  m.style.display='block';
+  document.querySelector('#mind .peace-btn').textContent='تمام، دلوقتي كفاية تفكير شوية 🤍';
+}
+let eggClicks=0;
+function eggMind(){
+  eggClicks++;
+  const msg=document.getElementById('eggMindMsg');
+  const arr=[
+    'بالمناسبة… لو لسه بتفكر، تعالى كلمني بدل ما تفضل تفكر لوحدك 😂❤️',
+    'أنا موجودة اهو. متقعدش لوحدك مع دماغك بقى. 🤍',
+    'Fine… I’ll be your distraction. 😂🤍'
+  ];
+  msg.textContent=arr[Math.min(eggClicks-1,arr.length-1)];
+}
+let loveClicks=0;
+function loveAgain(){
+  loveClicks++;
+  const msg=document.getElementById('loveMsg');
+  const arr=[
+    'I love you. ❤️',
+    'I love you more than you know. 🤍',
+    'I LOVE YOU, كريم. ❤️',
+    'Okay one more time. 🙄❤️ I LOVE YOU. Now come here. 😂🤍'
+  ];
+  msg.textContent=arr[Math.min(loveClicks-1,arr.length-1)];
+}
+function openPeace(){
+  const o=document.getElementById('peaceOverlay');
+  o.classList.add('show');
+  ['p1','p2','p3','p4'].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    el.classList.remove('show');
+    setTimeout(()=>el.classList.add('show'),700+i*1100);
+  });
+}
+function closePeace(){document.getElementById('peaceOverlay').classList.remove('show')}
+</script>
+</body>
+</html>
